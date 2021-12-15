@@ -2,14 +2,19 @@ const service = require("./movies.services");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 async function list(req, res, next) {
+  res.json({ data: res.locals.movies });
+}
+
+// - `GET /movies?is_showing=true` Middleware
+async function isShowing(req, res, next) {
   const { is_showing } = req.query;
+
   if (is_showing) {
-    const data = await service.listMoviesInTheaters();
-    res.json({ data });
+    res.locals.movies = await service.moviesShowing();
   } else {
-    const data = await service.list();
-    res.json({ data });
+    res.locals.movies = await service.list();
   }
+  next();
 }
 
 async function read(req, res, next) {
