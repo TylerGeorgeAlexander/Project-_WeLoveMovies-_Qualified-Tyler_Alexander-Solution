@@ -43,7 +43,7 @@ async function listMatchingReviews(req, res, next){
 }
 
 module.exports = {
-  list: [asyncErrorBoundary(list)],
+  list: [asyncErrorBoundary(isShowing), asyncErrorBoundary(list)],
   read: [asyncErrorBoundary(movieExists), asyncErrorBoundary(read)],
   findTheaters: [asyncErrorBoundary(movieExists), asyncErrorBoundary(listMatchingTheaters)],
   findReviews: [asyncErrorBoundary(movieExists), asyncErrorBoundary(listMatchingReviews)],
